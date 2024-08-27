@@ -21,11 +21,11 @@ $ mkvirtualenv yolov5-7.0 -p /usr/bin/python3.8
 ```bash
 (yolov5-7.0) $ mkdir -p yolov5_rknn/model/
 (yolov5-7.0) $ cd yolov5_rknn/model/
-(yolov5-7.0) $ wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
+(yolov5-7.0) $ wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt
 (yolov5-7.0) $ cd ~/yolov5_rknn
 (yolov5-7.0) $ git clone https://github.com/airockchip/yolov5.git
 (yolov5-7.0) $ cd yolov5
-(yolov5-7.0) $ python export.py --rknpu --weight /home/tianzx/yolov5_rknn/model/yolov5m.pt 
+(yolov5-7.0) $ python export.py --rknpu --weight /home/tianzx/yolov5_rknn/model/yolov5s.pt 
 ```
 
 ### 1.2 将onnx转为rknn
@@ -48,12 +48,12 @@ $ mkvirtualenv yolov5-7.0 -p /usr/bin/python3.8
 (yolov5-7.0) $ vi convert.py
 DATASET_PATH = '../../../datasets/COCO/coco_subset_20.txt'
 
-(yolov5-7.0) $ python convert.py /home/tianzx/yolov5_rknn/model/yolov5m.onnx rk3588 i8 /home/tianzx/yolov5_rknn/model/yolov5m.rknn
+(yolov5-7.0) $ python convert.py /home/tianzx/yolov5_rknn/model/yolov5s.onnx rk3588 i8 /home/tianzx/yolov5_rknn/model/yolov5s.rknn
 (yolov5-7.0) $ ls -hl ~/yolov5_rknn/model
 total 144M
--rw-rw-r-- 1 tianzx tianzx 81M 8月  26 16:38 yolov5m.onnx
--rw-rw-r-- 1 tianzx tianzx 41M 11月 22  2022 yolov5m.pt
--rw-rw-r-- 1 tianzx tianzx 22M 8月  26 16:43 yolov5m.rknn
+-rw-rw-r-- 1 tianzx tianzx 81M 8月  26 16:38 yolov5s.onnx
+-rw-rw-r-- 1 tianzx tianzx 41M 11月 22  2022 yolov5s.pt
+-rw-rw-r-- 1 tianzx tianzx 22M 8月  26 16:43 yolov5s.rknn
 ```
 
 ## 2. 调用方式
@@ -62,7 +62,7 @@ total 144M
 Bitmap m_phone = null;
 String m_result = "";
 
-final String rknn_model_name = "yolov5m.rknn";
+final String rknn_model_name = "yolov5s.rknn";
 final String rknn_label_name = "coco_80_labels_list.txt";
 String img_name = "20240826.jpg";
 
