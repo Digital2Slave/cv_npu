@@ -1,10 +1,10 @@
 # cv_npu
 
-用于开发测试cv_aix安卓库的apk, 在3588主板上调用rknn模型完成物体检测。
+An APK for developing and testing the cv_aix Android library, which performs object detection by invoking the RKNN model on the 3588 motherboard.
 
-## 1. 将yolov5-7.0模型转换为rknn模型
+## 1. Convert yolov5-7.0 model to rknn model
 
-### 1.0 创建虚拟环境yolov5-7.0
+### 1.0 Create yolov5-7.0 virtual environment
 ```bash
 $ pip3 install virtualenv virtualenvwrapper
 $ source /usr/local/bin/virtualenvwrapper.sh
@@ -14,9 +14,9 @@ $ mkvirtualenv yolov5-7.0 -p /usr/bin/python3.8
 (yolov5-7.0) $ pip3 install onnx onnxruntime onnxruntime-gpu
 ```
 
-### 1.1 将pt转为onnx
+### 1.1 Convert **pt** to **onnx**
 
-- 参考连接 https://github.com/airockchip/yolov5/blob/master/README_rkopt.md
+- Refer link: https://github.com/airockchip/yolov5/blob/master/README_rkopt.md
 
 ```bash
 (yolov5-7.0) $ mkdir -p yolov5_rknn/model/
@@ -28,20 +28,19 @@ $ mkvirtualenv yolov5-7.0 -p /usr/bin/python3.8
 (yolov5-7.0) $ python export.py --rknpu --weight /home/tianzx/yolov5_rknn/model/yolov5s.pt 
 ```
 
-### 1.2 将onnx转为rknn
+### 1.2 Convert **onnx** to **rknn**
 
-- 安装rknn-toolkit2
+- Install rknn-toolkit2
 
 ```bash
 (yolov5-7.0) $ cd ~/yolov5_rknn
-#!< 安装依赖库
 (yolov5-7.0) $ git clone https://github.com/airockchip/rknn-toolkit2.git --depth 1
 (yolov5-7.0) $ cd rknn-toolkit2/rknn-toolkit2/
 (yolov5-7.0) $ pip install -r packages/requirements_cp38-2.0.0b0.txt
 (yolov5-7.0) $ pip install packages/rknn_toolkit2-2.0.0b0+9bab5682-cp38-cp38-linux_x86_64.whl
 ```
 
-- 将onnx转为rknn
+- Convert onnx to rknn
 
 ```bash
 (yolov5-7.0) $ cd ~/yolov5_rknn/rknn_model_zoo/examples/yolov5/python/
@@ -56,7 +55,7 @@ total 144M
 -rw-rw-r-- 1 tianzx tianzx 22M 8月  26 16:43 yolov5s.rknn
 ```
 
-## 2. 调用方式
+## 2. Invoke method
 
 ```java
 Bitmap m_phone = null;
@@ -69,11 +68,13 @@ String img_name = "20240826.jpg";
 CvAix cvAix = new CvAix();
 EpboxCV dr = cvAix.doPicQrAndDetect(input, ai_model_folder, rknn_model_name, rknn_label_name, img_name);
 m_phone = dr.phone;
+// Time taken for cv_aix library method call (milliseconds):
 m_result ="cv_aix库方法调用耗时(毫秒): " + time_expend + "\ndetect_res:" + dr.detect_res;
 ```
 
-## 3. 调用结果
+## 3. Invoke result
 
- <img src="./docs/bus.jpg">
- 
- <img src="./docs/out_20240826-200416972.jpg">
+ <div style="display: flex; justify-content: center; align-items: center;">
+    <img src="./docs/bus.jpg" alt="Bus Image" style="width: 45%; margin-right: 10px;">
+    <img src="./docs/out_20240826-200416972.jpg" alt="Output Image" style="width: 45%;">
+</div>
